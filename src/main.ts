@@ -41,7 +41,7 @@ app.append(purchasesDiv);
 const buttons: { [key: string]: HTMLButtonElement } = {};
 
 // Price increase factor
-const priceIncreaseFactor = 1.10;
+const priceIncreaseFactor = 1.1;
 
 let lastTimestamp = 0;
 
