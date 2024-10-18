@@ -5,37 +5,48 @@ const app: HTMLDivElement = document.querySelector("#app")!;
 const gameName = "Mango Kingdom";
 document.title = gameName;
 
+// Interface to define item structure
+interface Item {
+  name: string;
+  cost: number;
+  rate: number;
+}
+
+const availableItems: Item[] = [
+  { name: "Mango Tree", cost: 10, rate: 0.15 },
+  { name: "Mango Farm", cost: 100, rate: 2 },
+  { name: "Mango Plantation", cost: 1000, rate: 50 },
+];
+
 // Counter and growth rate variables
 let counter: number = 0;
 let growthRate: number = 0; // Initialize default growth rate to zero
-const purchases = { A: 0, B: 0, C: 0 }; // Track the number of purchases for each upgrade
+const purchases: { [key: string]: number } = {}; // Track the number of purchases for each upgrade
+
+availableItems.forEach((item) => (purchases[item.name] = 0)); // Initialize purchase counts
 
 const counterDiv = document.createElement("div");
-counterDiv.textContent = `${counter} 🥭s`; // Update content with counter
-app.append(counterDiv); // Add counter div to app
+counterDiv.textContent = `${counter} 🥭s`;
+app.append(counterDiv);
 
 const growthRateDiv = document.createElement("div");
-growthRateDiv.textContent = `Growth Rate: ${growthRate.toFixed(1)} 🥭s/sec`; // Display current growth rate
-app.append(growthRateDiv); // Add growth rate display
+growthRateDiv.textContent = `Growth Rate: ${growthRate.toFixed(1)} 🥭s/sec`;
+app.append(growthRateDiv);
 
 const purchasesDiv = document.createElement("div");
-purchasesDiv.textContent = `Purchases: A: ${purchases.A}, B: ${purchases.B}, C: ${purchases.C}`; // Display purchase counts
+updatePurchasesDisplay();
 app.append(purchasesDiv);
 
-// Initialize time difference
+// Store references to buttons
+const buttons: { [key: string]: HTMLButtonElement } = {};
+
+// Price increase factor
+const priceIncreaseFactor = 1.10;
+
 let lastTimestamp = 0;
 
-// Initial costs for the upgrades
-const costs = {
-  A: 10,
-  B: 100,
-  C: 1000,
-};
-
-const priceIncreaseFactor = 1.15; // The factor by which the price increases after each purchase
-
+// Animation loop
 const animate = (timestamp: number) => {
-  // Calculate time difference in seconds
   const deltaTime = (timestamp - lastTimestamp) / 1000;
   lastTimestamp = timestamp;
 
@@ -45,15 +56,13 @@ const animate = (timestamp: number) => {
   // Update counter display
   counterDiv.textContent = `${Math.floor(counter)} 🥭s`;
 
-  // Update the buttons and growth rate display
+  // Update buttons and status
   updatePurchaseButtons();
   updateStatusDisplay();
 
-  // Request next animation frame
   requestAnimationFrame(animate);
 };
 
-// Start animation on page load
 requestAnimationFrame(animate);
 
 // Manual counter increment button
@@ -64,62 +73,63 @@ button.style.color = "white";
 document.body.appendChild(button);
 
 button.addEventListener("click", () => {
-  counter++; // Increase counter on click
-  counterDiv.textContent = `${Math.floor(counter)} 🥭s`; // Update counter display
+  counter++;
+  counterDiv.textContent = `${Math.floor(counter)} 🥭s`;
 });
 
-// Purchase upgrade buttons
-const createUpgradeButton = (
-  name: string,
-  initialCost: number,
-  rateIncrease: number,
-  upgradeType: keyof typeof purchases,
-) => {
+// Create upgrade buttons from the availableItems array
+availableItems.forEach((item) => {
+  createUpgradeButton(item);
+});
+
+// Function to create an upgrade button dynamically
+function createUpgradeButton(item: Item) {
+  let cost = item.cost;
   const button = document.createElement("button");
-  let cost = initialCost; // Start with the initial cost for the upgrade
-  button.textContent = `Purchase ${name}: ${cost.toFixed(2)} 🥭s`;
-  button.disabled = true; // Initially disabled
+  button.textContent = `Purchase ${item.name}: ${cost.toFixed(2)} 🥭s`;
+  button.style.color = "white";
+  button.disabled = true;
   app.appendChild(button);
+
+  // Store the button reference
+  buttons[item.name] = button;
 
   button.addEventListener("click", () => {
     if (counter >= cost) {
-      counter -= cost; // Deduct current cost from counter
-      growthRate += rateIncrease; // Increase growth rate
-      purchases[upgradeType]++; // Increment the purchase count
-      cost *= priceIncreaseFactor; // Increase the cost by the factor
-      button.textContent = `Purchase ${name}: ${cost.toFixed(2)} 🥭s`; // Update button text with the new price
-      updateStatusDisplay(); // Update the status display
+      counter -= cost;
+      growthRate += item.rate;
+      purchases[item.name]++;
+      cost *= priceIncreaseFactor;
+      button.textContent = `Purchase ${item.name}: ${cost.toFixed(2)} 🥭s`;
+      updateStatusDisplay();
     }
   });
 
   return button;
-};
+}
 
-// Create three upgrade buttons for A, B, and C with initial costs and growth rates
-const upgradeAButton = createUpgradeButton("Mango Tree", costs.A, 0.15, "A");
-upgradeAButton.style.color = "white";
-const upgradeBButton = createUpgradeButton("Mango Farm", costs.B, 2.0, "B");
-upgradeBButton.style.color = "white";
-const upgradeCButton = createUpgradeButton(
-  "Mango Plantation",
-  costs.C,
-  50.0,
-  "C",
-);
-upgradeCButton.style.color = "white";
-
-// Function to update the status display (growth rate and purchase counts)
-const updateStatusDisplay = () => {
+// Function to update the status display
+function updateStatusDisplay() {
   growthRateDiv.textContent = `Growth Rate: ${growthRate.toFixed(1)} 🥭s/sec`;
-  purchasesDiv.textContent = `Purchases: A: ${purchases.A}, B: ${purchases.B}, C: ${purchases.C}`;
-};
+  updatePurchasesDisplay();
+}
 
-// Function to update the purchase buttons (enable/disable based on counter)
-const updatePurchaseButtons = () => {
-  upgradeAButton.disabled = counter < costs.A;
-  upgradeBButton.disabled = counter < costs.B;
-  upgradeCButton.disabled = counter < costs.C;
-};
+// Function to update the purchase counts display
+function updatePurchasesDisplay() {
+  purchasesDiv.textContent = `Purchases: ${availableItems
+    .map((item) => `${item.name}: ${purchases[item.name]}`)
+    .join(", ")}`;
+}
+
+// Function to update the purchase buttons based on counter
+function updatePurchaseButtons() {
+  availableItems.forEach((item) => {
+    const button = buttons[item.name]; // Access the button reference
+    if (button) {
+      button.disabled = counter < item.cost;
+    }
+  });
+}
 
 // Game header
 const header = document.createElement("h1");
