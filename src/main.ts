@@ -100,7 +100,12 @@ const upgradeAButton = createUpgradeButton("Mango Tree", costs.A, 0.15, "A");
 upgradeAButton.style.color = "white";
 const upgradeBButton = createUpgradeButton("Mango Farm", costs.B, 2.0, "B");
 upgradeBButton.style.color = "white";
-const upgradeCButton = createUpgradeButton("Mango Plantation", costs.C, 50.0, "C");
+const upgradeCButton = createUpgradeButton(
+  "Mango Plantation",
+  costs.C,
+  50.0,
+  "C",
+);
 upgradeCButton.style.color = "white";
 
 // Function to update the status display (growth rate and purchase counts)
