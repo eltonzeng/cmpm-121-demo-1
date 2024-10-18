@@ -25,6 +25,15 @@ app.append(purchasesDiv);
 // Initialize time difference
 let lastTimestamp = 0;
 
+// Initial costs for the upgrades
+const costs = {
+  A: 10,
+  B: 100,
+  C: 1000
+};
+
+const priceIncreaseFactor = 1.15; // The factor by which the price increases after each purchase
+
 const animate = (timestamp: number) => {
   // Calculate time difference in seconds
   const deltaTime = (timestamp - lastTimestamp) / 1000;
@@ -60,18 +69,20 @@ button.addEventListener("click", () => {
 });
 
 // Purchase upgrade buttons
-const createUpgradeButton = (name: string, cost: number, rateIncrease: number, upgradeType: keyof typeof purchases) => {
+const createUpgradeButton = (name: string, initialCost: number, rateIncrease: number, upgradeType: keyof typeof purchases) => {
   const button = document.createElement("button");
-  button.textContent = `Purchase ${name}: ${cost} 🥭s`;
-  button.style.color = "white";
+  let cost = initialCost; // Start with the initial cost for the upgrade
+  button.textContent = `Purchase ${name}: ${cost.toFixed(2)} 🥭s`;
   button.disabled = true; // Initially disabled
   app.appendChild(button);
 
   button.addEventListener("click", () => {
     if (counter >= cost) {
-      counter -= cost; // Deduct cost from counter
+      counter -= cost; // Deduct current cost from counter
       growthRate += rateIncrease; // Increase growth rate
       purchases[upgradeType]++; // Increment the purchase count
+      cost *= priceIncreaseFactor; // Increase the cost by the factor
+      button.textContent = `Purchase ${name}: ${cost.toFixed(2)} 🥭s`; // Update button text with the new price
       updateStatusDisplay(); // Update the status display
     }
   });
@@ -79,10 +90,10 @@ const createUpgradeButton = (name: string, cost: number, rateIncrease: number, u
   return button;
 };
 
-// Create three upgrade buttons for A, B, and C
-const upgradeAButton = createUpgradeButton("A", 10, 0.1, "A");
-const upgradeBButton = createUpgradeButton("B", 100, 2.0, "B");
-const upgradeCButton = createUpgradeButton("C", 1000, 50.0, "C");
+// Create three upgrade buttons for A, B, and C with initial costs and growth rates
+const upgradeAButton = createUpgradeButton("A", costs.A, 0.1, "A");
+const upgradeBButton = createUpgradeButton("B", costs.B, 2.0, "B");
+const upgradeCButton = createUpgradeButton("C", costs.C, 50.0, "C");
 
 // Function to update the status display (growth rate and purchase counts)
 const updateStatusDisplay = () => {
@@ -92,9 +103,9 @@ const updateStatusDisplay = () => {
 
 // Function to update the purchase buttons (enable/disable based on counter)
 const updatePurchaseButtons = () => {
-  upgradeAButton.disabled = counter < 10;
-  upgradeBButton.disabled = counter < 100;
-  upgradeCButton.disabled = counter < 1000;
+  upgradeAButton.disabled = counter < costs.A;
+  upgradeBButton.disabled = counter < costs.B;
+  upgradeCButton.disabled = counter < costs.C;
 };
 
 // Game header
