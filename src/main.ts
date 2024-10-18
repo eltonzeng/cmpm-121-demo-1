@@ -2,7 +2,7 @@ import "./style.css";
 
 const app: HTMLDivElement = document.querySelector("#app")!;
 
-const gameName = "Not my amazing game";
+const gameName = "Mango Kingdom";
 document.title = gameName;
 
 // Counter and growth rate variables
@@ -29,7 +29,7 @@ let lastTimestamp = 0;
 const costs = {
   A: 10,
   B: 100,
-  C: 1000
+  C: 1000,
 };
 
 const priceIncreaseFactor = 1.15; // The factor by which the price increases after each purchase
@@ -58,7 +58,7 @@ requestAnimationFrame(animate);
 
 // Manual counter increment button
 const button = document.createElement("button");
-button.textContent = "Don't click me 😛";
+button.textContent = "Click for 🥭";
 button.style.backgroundColor = "gray";
 button.style.color = "white";
 document.body.appendChild(button);
@@ -69,7 +69,12 @@ button.addEventListener("click", () => {
 });
 
 // Purchase upgrade buttons
-const createUpgradeButton = (name: string, initialCost: number, rateIncrease: number, upgradeType: keyof typeof purchases) => {
+const createUpgradeButton = (
+  name: string,
+  initialCost: number,
+  rateIncrease: number,
+  upgradeType: keyof typeof purchases,
+) => {
   const button = document.createElement("button");
   let cost = initialCost; // Start with the initial cost for the upgrade
   button.textContent = `Purchase ${name}: ${cost.toFixed(2)} 🥭s`;
@@ -91,9 +96,12 @@ const createUpgradeButton = (name: string, initialCost: number, rateIncrease: nu
 };
 
 // Create three upgrade buttons for A, B, and C with initial costs and growth rates
-const upgradeAButton = createUpgradeButton("A", costs.A, 0.1, "A");
-const upgradeBButton = createUpgradeButton("B", costs.B, 2.0, "B");
-const upgradeCButton = createUpgradeButton("C", costs.C, 50.0, "C");
+const upgradeAButton = createUpgradeButton("Mango Tree", costs.A, 0.15, "A");
+upgradeAButton.style.color = "white";
+const upgradeBButton = createUpgradeButton("Mango Farm", costs.B, 2.0, "B");
+upgradeBButton.style.color = "white";
+const upgradeCButton = createUpgradeButton("Mango Plantation", costs.C, 50.0, "C");
+upgradeCButton.style.color = "white";
 
 // Function to update the status display (growth rate and purchase counts)
 const updateStatusDisplay = () => {
