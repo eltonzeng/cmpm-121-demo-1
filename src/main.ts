@@ -15,11 +15,36 @@ interface Item {
 
 // Add more items with descriptions
 const availableItems: Item[] = [
-  { name: "Mango Tree", cost: 10, rate: 0.15, description: "A small tree bearing juicy mangoes." },
-  { name: "Mango Farm", cost: 100, rate: 2, description: "A lush farm filled with ripe mangoes." },
-  { name: "Mango Plantation", cost: 1000, rate: 50, description: "A vast plantation of high-quality mangoes." },
-  { name: "Mango Factory", cost: 5000, rate: 200, description: "Produces processed mango products at scale." },
-  { name: "Mango Empire", cost: 20000, rate: 1000, description: "An empire built on the global trade of mangoes." },
+  {
+    name: "Mango Tree",
+    cost: 10,
+    rate: 0.15,
+    description: "A small tree bearing juicy mangoes.",
+  },
+  {
+    name: "Mango Farm",
+    cost: 100,
+    rate: 2,
+    description: "A lush farm filled with ripe mangoes.",
+  },
+  {
+    name: "Mango Plantation",
+    cost: 1000,
+    rate: 50,
+    description: "A vast plantation of high-quality mangoes.",
+  },
+  {
+    name: "Mango Factory",
+    cost: 5000,
+    rate: 200,
+    description: "Produces processed mango products at scale.",
+  },
+  {
+    name: "Mango Empire",
+    cost: 20000,
+    rate: 1000,
+    description: "An empire built on the global trade of mangoes.",
+  },
 ];
 
 // Counter and growth rate variables
@@ -45,7 +70,7 @@ app.append(purchasesDiv);
 const buttons: { [key: string]: HTMLButtonElement } = {};
 
 // Price increase factor
-const priceIncreaseFactor = 1.10;
+const priceIncreaseFactor = 1.1;
 
 let lastTimestamp = 0;
 
