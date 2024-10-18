@@ -20,16 +20,16 @@ app.append(counterDiv); // Add counter div to app
 
 // Automatic increment every second
 let intervalId: number | undefined = setInterval(() => {
-    counter++;
-    counterDiv.textContent = `${counter} mangoes`;
-  }, 1000); // Update every 1 second (1000 milliseconds)
-  
-  button.addEventListener("click", () => {
-    counter++; // Increase counter on click
-    counterDiv.textContent = `${counter} mangoes`; // Update counter
-  });
+  counter++;
+  counterDiv.textContent = `${counter} mangoes`;
+}, 1000); // Update every 1 second (1000 milliseconds)
 
-  // Add a button to stop the interval
+button.addEventListener("click", () => {
+  counter++; // Increase counter on click
+  counterDiv.textContent = `${counter} mangoes`; // Update counter
+});
+
+// Add a button to stop the interval
 const stopButton = document.createElement("button");
 stopButton.textContent = "Stop Automatic Increment";
 document.body.appendChild(stopButton);
