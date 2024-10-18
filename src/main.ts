@@ -10,12 +10,16 @@ interface Item {
   name: string;
   cost: number;
   rate: number;
+  description: string;
 }
 
+// Add more items with descriptions
 const availableItems: Item[] = [
-  { name: "Mango Tree", cost: 10, rate: 0.15 },
-  { name: "Mango Farm", cost: 100, rate: 2 },
-  { name: "Mango Plantation", cost: 1000, rate: 50 },
+  { name: "Mango Tree", cost: 10, rate: 0.15, description: "A small tree bearing juicy mangoes." },
+  { name: "Mango Farm", cost: 100, rate: 2, description: "A lush farm filled with ripe mangoes." },
+  { name: "Mango Plantation", cost: 1000, rate: 50, description: "A vast plantation of high-quality mangoes." },
+  { name: "Mango Factory", cost: 5000, rate: 200, description: "Produces processed mango products at scale." },
+  { name: "Mango Empire", cost: 20000, rate: 1000, description: "An empire built on the global trade of mangoes." },
 ];
 
 // Counter and growth rate variables
@@ -41,7 +45,7 @@ app.append(purchasesDiv);
 const buttons: { [key: string]: HTMLButtonElement } = {};
 
 // Price increase factor
-const priceIncreaseFactor = 1.1;
+const priceIncreaseFactor = 1.10;
 
 let lastTimestamp = 0;
 
@@ -86,7 +90,7 @@ availableItems.forEach((item) => {
 function createUpgradeButton(item: Item) {
   let cost = item.cost;
   const button = document.createElement("button");
-  button.textContent = `Purchase ${item.name}: ${cost.toFixed(2)} 🥭s`;
+  button.textContent = `Purchase ${item.name}: ${cost.toFixed(2)} 🥭s - ${item.description}`;
   button.style.color = "white";
   button.disabled = true;
   app.appendChild(button);
@@ -100,7 +104,7 @@ function createUpgradeButton(item: Item) {
       growthRate += item.rate;
       purchases[item.name]++;
       cost *= priceIncreaseFactor;
-      button.textContent = `Purchase ${item.name}: ${cost.toFixed(2)} 🥭s`;
+      button.textContent = `Purchase ${item.name}: ${cost.toFixed(2)} 🥭s - ${item.description}`;
       updateStatusDisplay();
     }
   });
