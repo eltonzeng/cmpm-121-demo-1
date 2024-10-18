@@ -33,16 +33,16 @@ const animate = (timestamp: number) => {
   // Update counter display
   counterDiv.textContent = `${Math.floor(counter)} 🥭s`;
 
-  updatePurchaseButton();               // Continuously check the purchase button status
-  requestAnimationFrame(animate);       // Request next animation frame
+  updatePurchaseButton(); // Continuously check the purchase button status
+  requestAnimationFrame(animate); // Request next animation frame
 };
 
-requestAnimationFrame(animate);         // Start animation on page load
+requestAnimationFrame(animate); // Start animation on page load
 
 // Button click to manually increase the counter
 button.addEventListener("click", () => {
   counter++; // Increase counter on click
-  counterDiv.textContent = `${Math.floor(counter)} 🥭s`;  // Update counter display
+  counterDiv.textContent = `${Math.floor(counter)} 🥭s`; // Update counter display
 });
 
 // Purchase button for upgrade
@@ -53,16 +53,16 @@ app.appendChild(purchaseButton);
 
 // Function to update the purchase button status
 const updatePurchaseButton = () => {
-  purchaseButton.disabled = counter < 10;                  // Enable if counter is at least 10
+  purchaseButton.disabled = counter < 10; // Enable if counter is at least 10
 };
 
 // Event listener for purchase button click
 purchaseButton.addEventListener("click", () => {
   if (!purchaseButton.disabled) {
-    counter -= 10;                                         // Deduct 10 units from counter
-    growthRate += 1;                                       // Increment growth rate by 1
+    counter -= 10; // Deduct 10 units from counter
+    growthRate += 1; // Increment growth rate by 1
     counterDiv.textContent = `${Math.floor(counter)} 🥭s`; // Update counter display
-    updatePurchaseButton();                                // Update button status after purchase
+    updatePurchaseButton(); // Update button status after purchase
   }
 });
 
