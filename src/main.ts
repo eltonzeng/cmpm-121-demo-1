@@ -8,37 +8,40 @@ document.title = gameName;
 // Button
 const button = document.createElement("button");
 button.textContent = "Don't click me 😛";
-button.style.backgroundColor = "blue";
+button.style.backgroundColor = "gray";
 button.style.color = "white";
 document.body.appendChild(button);
 
 // Counter
 let counter: number = 0;
 const counterDiv = document.createElement("div");
-counterDiv.textContent = `${counter} mangoes`; // Update content with counter
+counterDiv.textContent = `${counter} 🥭s`; // Update content with counter
 app.append(counterDiv); // Add counter div to app
 
-// Automatic increment every second
-let intervalId: number | undefined = setInterval(() => {
-  counter++;
-  counterDiv.textContent = `${counter} mangoes`;
-}, 1000); // Update every 1 second (1000 milliseconds)
+// Initialize time difference
+let lastTimestamp = 0;
+
+const animate = (timestamp: number) => {
+  // Calculate time difference in seconds
+  const deltaTime = (timestamp - lastTimestamp) / 1000;
+  lastTimestamp = timestamp;
+
+  // Increase counter
+  counter += deltaTime;
+
+  // Update counter display
+  counterDiv.textContent = `${Math.floor(counter)} 🥭s`;
+
+  // Request next animation frame
+  requestAnimationFrame(animate);
+};
+
+// Start animation on page load
+requestAnimationFrame(animate);
 
 button.addEventListener("click", () => {
   counter++; // Increase counter on click
-  counterDiv.textContent = `${counter} mangoes`; // Update counter
-});
-
-// Add a button to stop the interval
-const stopButton = document.createElement("button");
-stopButton.textContent = "Stop Automatic Increment";
-document.body.appendChild(stopButton);
-
-stopButton.addEventListener("click", () => {
-  if (intervalId) {
-    clearInterval(intervalId);
-    intervalId = undefined;
-  }
+  counterDiv.textContent = `${Math.floor(counter)} 🥭s`; // Update counter display
 });
 
 const header = document.createElement("h1");
