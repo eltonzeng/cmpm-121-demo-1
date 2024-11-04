@@ -70,7 +70,7 @@ app.append(purchasesDiv);
 const buttons: { [key: string]: HTMLButtonElement } = {};
 
 // Price increase factor
-const priceIncreaseFactor = 1.1;
+const PRICE_INCREASE_FACTOR = 1.1;
 
 let lastTimestamp = 0;
 
@@ -106,11 +106,6 @@ button.addEventListener("click", () => {
   counterDiv.textContent = `${Math.floor(counter)} 🥭s`;
 });
 
-// Create upgrade buttons from the availableItems array
-availableItems.forEach((item) => {
-  createUpgradeButton(item);
-});
-
 // Function to create an upgrade button dynamically
 function createUpgradeButton(item: Item) {
   let cost = item.cost;
@@ -128,7 +123,7 @@ function createUpgradeButton(item: Item) {
       counter -= cost;
       growthRate += item.rate;
       purchases[item.name]++;
-      cost *= priceIncreaseFactor;
+      cost *= PRICE_INCREASE_FACTOR;
       button.textContent = `Purchase ${item.name}: ${cost.toFixed(2)} 🥭s - ${item.description}`;
       updateStatusDisplay();
     }
@@ -136,6 +131,11 @@ function createUpgradeButton(item: Item) {
 
   return button;
 }
+
+// Create upgrade buttons from the availableItems array
+availableItems.forEach((item) => {
+  createUpgradeButton(item);
+});
 
 // Function to update the status display
 function updateStatusDisplay() {
