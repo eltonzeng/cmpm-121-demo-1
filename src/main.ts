@@ -76,21 +76,27 @@ let lastTimestamp = 0;
 
 // Animation loop
 const animate = (timestamp: number) => {
-  const deltaTime = (timestamp - lastTimestamp) / 1000;
-  lastTimestamp = timestamp;
-
-  // Increase counter based on growth rate
-  counter += growthRate * deltaTime;
-
-  // Update counter display
-  counterDiv.textContent = `${Math.floor(counter)} 🥭s`;
-
-  // Update buttons and status
-  updatePurchaseButtons();
-  updateStatusDisplay();
-
+  const deltaTime = calculateDeltaTime(timestamp);
+  updateCounter(deltaTime);
+  updateUI();
   requestAnimationFrame(animate);
 };
+
+function calculateDeltaTime(timestamp: number): number {
+  const deltaTime = (timestamp - lastTimestamp) / 1000;
+  lastTimestamp = timestamp;
+  return deltaTime;
+}
+
+function updateCounter(deltaTime: number): void {
+  counter += growthRate * deltaTime;
+  counterDiv.textContent = `${Math.floor(counter)} 🥭s`;
+}
+
+function updateUI(): void {
+  updatePurchaseButtons();
+  updateStatusDisplay();
+}
 
 requestAnimationFrame(animate);
 
