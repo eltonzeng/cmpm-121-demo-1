@@ -69,8 +69,8 @@ app.append(purchasesDiv);
 // Store references to buttons
 const buttons: { [key: string]: HTMLButtonElement } = {};
 
-// Price increase factor
-const PRICE_INCREASE_FACTOR = 1.1;
+// Price increase factor - removed magic number smell
+const PRICE_INCREASE_RATE = 1.1;
 
 let lastTimestamp = 0;
 
@@ -123,7 +123,7 @@ function createUpgradeButton(item: Item) {
       counter -= cost;
       growthRate += item.rate;
       purchases[item.name]++;
-      cost *= PRICE_INCREASE_FACTOR;
+      cost *= PRICE_INCREASE_RATE;
       button.textContent = `Purchase ${item.name}: ${cost.toFixed(2)} 🥭s - ${item.description}`;
       updateStatusDisplay();
     }
