@@ -2,11 +2,8 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  background: linear-gradient(315deg, #000000, #ffcc00);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -14,63 +11,111 @@
   -webkit-text-size-adjust: 100%;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  align-items: center;
+  justify-content: center;
   min-width: 320px;
   min-height: 100vh;
+  background: linear-gradient(315deg, #ff6600, #ffcc00, #a4d520);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-#app {
+/* Container Layout */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+}
+
+/* Left Sidebar */
+#upgrades-sidebar {
+  width: 20vw;
+  height: 80vh;
+  padding: 20px;
+  border-radius: 14px;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Main Area */
+#main-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40vw;
   text-align: center;
 }
 
-button {
+/* Mango Button (Main Clickable Area) */
+#main-area h1 {
+  font-size: 2.8em;
+  color: white;
+}
+
+#counter-display {
+  font-size: 1.8em;
+  padding: 20px;
+  color: white;
+}
+
+/* Circular Button for Mango */
+#mango-clicker, #mango-button {
+  width: 20vw;
+  height: 20vw;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 200, 0);
+  transition: outline 0.2s ease;
+  font-size: 4em;
+  color: white;
+}
+
+.mango-clicker:hover, #mango-button:hover {
+  outline: 4px solid white;
+}
+
+.mango-clicker:active, #mango-button:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 80px rgba(255, 255, 255, 0.3);
+}
+
+/* Upgrade Buttons */
+button.item {
+  width: 100%;
   border-radius: 8px;
-  border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #1fcd45;
+  color: rgb(5, 51, 18);
   cursor: pointer;
   transition: border-color 0.25s;
+  text-align: center;
 }
-button:hover {
+
+button.item:hover {
   border-color: #646cff;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+
+button.item:disabled {
+  background-color: #a04b4b;
+  color: #412020;
+  cursor: not-allowed;
 }
 
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
   }
 }
